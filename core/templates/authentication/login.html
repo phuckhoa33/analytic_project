@@ -1,0 +1,81 @@
+{% extends "authentication/base.html" %}
+
+{% block title %} Log in {% endblock %}
+
+{% block content %}
+<!-- LOGN IN FORM by Omar Dsoky -->
+   <form method="post" action=".">
+       {% csrf_token %}
+        <!--   con = Container  for items in the form-->
+        <div class="con">
+        <!--     Start  header Content  -->
+        <header class="head-form">
+           <h2>Mutyses</h2>
+           <!--     A welcome message or an explanation of the login form -->
+           <p>login here using your username and password</p>
+        </header>
+        <!--     End  header Content  -->
+        <br>
+        <div class="field-set">
+          
+           <!--   user name -->
+              <span class="input-item">
+                <i class="fa fa-user-circle"></i>
+              </span>
+             <!--   user name Input-->
+              {{form.email}}
+          
+           <br>
+          
+                <!--   Password -->
+          
+           <span class="input-item">
+             <i class="fa fa-key"></i>
+            </span>
+           <!--   Password Input-->
+               {{form.password}}
+          
+     <!--      Show/hide password  -->
+          <span>
+             <i class="fa fa-eye" aria-hidden="true"  type="button" id="eye"></i>
+          </span>
+          
+          
+           <br>
+     <!--        buttons -->
+     <!--      button LogIn -->
+         {% if form.errors or form.non_field_errors %}
+            <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                {% for field in form %}
+                    {{ field.errors }}
+                {% endfor %}
+
+                {{ form.non_field_errors }}
+            </div>
+         {% endif %}
+            {{ error_message }}
+           <button class="log-in"> Log In </button>
+        </div>
+       
+     <!--   other buttons -->
+        <div class="other">
+     <!--      Forgot Password button-->
+           <button class="btn submits frgt-pass me-5">
+            <a class='text-decoration-underline' href='/forgot-password/'>Forgot Password</a>
+           </button>
+     <!--     Sign Up button -->
+           <button class="btn submits sign-up "> 
+            <a class='text-decoration-underline' href='/signup/'>Sign Up</a>
+     <!--         Sign Up font icon -->
+           <i class="fa fa-user-plus" aria-hidden="true"></i>
+           </button>
+     <!--      End Other the Division -->
+        </div>
+          
+     <!--   End Conrainer  -->
+       </div>
+       
+       <!-- End Form -->
+     </form>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "authentication/base.html" %}
+
+{% block title %} Sign up {% endblock %}
+
+{% block content %}
+    
+    <!-- LOGN IN FORM by Omar Dsoky -->
+    <form method="post" action=".">
+      {% csrf_token %}
+      <!--   con = Container  for items in the form-->
+      <div class="con">
+      <!--     Start  header Content  -->
+      <header class="head-form">
+         <h2>Mutyses</h2>
+         <!--     A welcome message or an explanation of the login form -->
+         <p>Sign up so that you can use many features of website</p>
+      </header>
+      <!--     End  header Content  -->
+      <br>
+      <div class="field-set">
+         <span class="input-item">
+            <i class="fa fa-user-circle"></i>
+         </span>
+           <!--   user name Input-->
+            {{form.username}}
+        
+         <br>
+         <!--   user name -->
+         <span class="input-item">
+            <i class="fa-solid fa-envelope"></i>
+         </span>
+           <!--   user name Input-->
+            {{form.email}}
+        
+         <br>
+        
+              <!--   Password -->
+        
+         <span class="input-item">
+           <i class="fa fa-key"></i>
+          </span>
+         <!--   Password Input-->
+         {{form.password1}}
+        
+   <!--      Show/hide password  -->
+        <span>
+           <i class="fa fa-eye" aria-hidden="true"  type="button" id="eye"></i>
+        </span>
+        
+        
+         <br>
+
+         <span class="input-item">
+            <i class="fa-solid fa-repeat"></i>
+           </span>
+          <!--   Password Input-->
+          {{form.password2}}
+       
+         
+    <!--      Show/hide password  -->
+     
+         
+         
+          <br>
+          {% if form.errors or form.non_field_errors %}
+            <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                {% for field in form %}
+                    {{ field.errors }}
+                {% endfor %}
+
+                {{ form.non_field_errors }}
+                {{ error_message }}
+            </div>
+        {% endif %}
+   <!--        buttons -->
+   <!--      button LogIn -->
+         <button class="log-in"> Sign up </button>
+      </div>
+     
+   <!--   other buttons -->
+      <div class="other w-100">
+   <!--      Forgot Password button-->
+         <button class="btn submits frgt-pass">Forgot Password</button>
+   <!--     Sign Up button -->
+         <button class="btn submits sign-up"><a class='text-decoration-underline' href='/login/'>Login</a>
+   <!--         Sign Up font icon -->
+   <i class="fa-solid fa-right-to-bracket"></i>
+         </button>
+   <!--      End Other the Division -->
+      </div>
+        
+   <!--   End Conrainer  -->
+     </div>
+     
+     <!-- End Form -->
+   </form>
+
+{% endblock %}
