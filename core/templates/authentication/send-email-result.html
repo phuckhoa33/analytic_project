@@ -1,6 +1,6 @@
 {% extends "authentication/base.html" %}
 
-{% block title %} Forgot Password {% endblock %}
+{% block title %} Forgot Password Result {% endblock %}
 
 {% block content %}
 <!-- LOGN IN FORM by Omar Dsoky -->
@@ -19,41 +19,45 @@
         <div class="field-set">
           
            <!--   user name -->
-              <span class="input-item">
-                <i class="fa fa-user-circle"></i>
-              </span>
-             <!--   user name Input-->
-             {{form.email}}
+           
+           <!--   user name Input-->
+           {% if  sended %}
+           
+           
+               <h3 class='text-success fw-bolder'>
+                  <i class="fa-solid fa-check bg-success rounded-circle fs-1 w-100"></i>
+                  Email have sended into your email
+               </h3>
+           {% else %}
+               <div>
+              
+                  <h3 class='text-danger fw-bolder'>
+                     <i class="fa-sharp fa-solid fa-xmark bg-danger rounded-circle fs-1 w-100"></i>
+                     Couldn't send to your email.
+                  </h3>
+               </div>
+               
+             {% endif %}
           
         
           
           
            <br>
-     <!--        buttons -->
-     <!--      button LogIn -->
-         {% if form.errors or form.non_field_errors %}
-            <div class="mb-3 p-6 bg-red-100 rounded-xl">
-                {% for field in form %}
-                    {{ field.errors }}
-                {% endfor %}
 
-                {{ form.non_field_errors }}
-            </div>
-         {% endif %}
-            {{ error_message }}
-           <button class="log-in"> Send Email </button>
-        </div>
        
   <!--   other buttons -->
         <div class="other">
      <!--      Forgot Password button-->
            <button class="btn submits bg-primary sign-up">
-
-            <a class='text-decoration-underline' href='/signup/'>Signup</a>
+            {% if sended %}
+               <a class='text-decoration-underline' href='https://mail.google.com/mail/u/0/#inbox/'>Go to mail</a>
+            {% else %}
+               <a class='text-decoration-underline' href='/forgot-password'>Send Again</a>
+            {% endif %}
            </button>
      <!--     Sign Up button -->
            <button class="btn submits sign-up"> 
-            <a class='text-decoration-underline' href='/login/'>Login</a>
+               <a class='text-decoration-underline' href='/login/'>Login</a>
            </button>
      <!--      End Other the Division -->
         </div>

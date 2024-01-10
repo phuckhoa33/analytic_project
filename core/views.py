@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import SignupForm, LoginForm
+from .forms import SignupForm, LoginForm, CustomPasswordChangeForm, CustomPasswordSendEmailForm
 from .models import MyUser as User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import update_session_auth_hash
+from .utils import send_html_email_with_file, create_link_with_token, is_token_valid
+from django.utils.http import urlsafe_base64_decode
+from django.contrib import messages
+import os
 # Create your views here.
 def index(request):
 
@@ -65,5 +70,66 @@ def signup(request):
 
 
 def forgot_password(request):
-    return render(request, 'authentication/forgot-password.html')
+    form = CustomPasswordSendEmailForm()
+    try: 
+
+
+        if request.method == "POST": 
+            owner_email = request.POST['email']
+            user = User.objects.get(email=owner_email)
+
+
+            # Create link
+            password_reset_link = create_link_with_token(user)
+
+            to = [owner_email,]
+            html_file_path = os.getcwd() + '\\core\\templates\\email_template\\reset-password.html'
+            context = {
+                'recipient': owner_email, 
+                'password_reset_link': password_reset_link,
+                'flatform_name': "Mutyses",
+                'flatfrom_number_phone': '0972495038',
+                'flatform_logo': ''
+            }
+            subject = 'Password Reset'
+
+            send_html_email_with_file(subject, to, html_file_path, context)
+
+            return render(request, 'authentication/send-email-result.html', context={"sended": True})
+    except Exception as e:
+        print(e)
+        return render(request, 'authentication/send-email-result.html', context={"sended": False})
+
+
+
+    return render(request, 'authentication/forgot-password.html', {
+        'form': form
+    })
+
+def reset_password(request, uidb64, token):
+    user_id = urlsafe_base64_decode(uidb64).decode()
+    user = User.objects.get(pk=user_id)
+    checked_expired: bool = is_token_valid(token, user, 300)
+
+
+    if checked_expired:
+
+        if request.method == 'POST':
+            form = CustomPasswordChangeForm(user, request.POST)
+            # Remain error when alway not is_valid => 
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('/')
+            else:
+                messages.error(request, 'Please correct the error below.')
+
+        else:
+            form = CustomPasswordChangeForm(user)
+
+
+        return render(request, 'authentication/reset-password.html', {'expired': checked_expired, 'form': form})
+    else:
+        return render(request, 'authentication/reset-password.html', {'expired': checked_expired})
 
