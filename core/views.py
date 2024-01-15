@@ -117,6 +117,7 @@ def reset_password(request, uidb64, token):
         if request.method == 'POST':
             form = CustomPasswordChangeForm(user, request.POST)
             # Remain error when alway not is_valid => 
+            print(form.is_valid)
             if form.is_valid():
                 user = form.save()
                 update_session_auth_hash(request, user)

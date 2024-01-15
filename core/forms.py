@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from .models import MyUser as User
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -74,7 +74,7 @@ class CustomPasswordSendEmailForm(PasswordResetForm):
             raise ValidationError(_('Email field is required'))
         return email
     
-class CustomPasswordChangeForm(PasswordChangeForm):
+class CustomPasswordChangeForm(SetPasswordForm):
     new_password1 = forms.CharField(
         label="New Password",
         widget=forms.PasswordInput(attrs={
