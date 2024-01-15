@@ -1,0 +1,55 @@
+{% extends "authentication/base.html" %}
+
+{% block title %} Reset Password {% endblock %}
+
+{% block content %}
+<!-- LOGN IN FORM by Omar Dsoky -->
+   <form method="post" action=".">
+       {% csrf_token %}
+        <!--   con = Container  for items in the form-->
+        
+        <!--     Start  header Content  -->
+        <header class="head-form">
+           <h2>Mutyses</h2>
+           <!--     A welcome message or an explanation of the login form -->
+           <p>Reset password</p>
+        </header>
+        <!--     End  header Content  -->
+        <br>
+      
+        <div class="field-set">
+            
+            <div class='mt-5'>
+                <h3 class='text-danger fw-bolder text-center'>
+                    <i class="fa-sharp fa-solid fa-xmark bg-danger rounded-circle fs-1 w-100"></i>
+                    {% if  expired %}
+                        You have completed register
+                    {% else %}
+                        This token is expired
+                    {% endif %}
+               </h3>
+            </div>
+           <!--   user name -->
+        </div>
+        <br/>
+     <!--   other buttons -->
+        <div class="other">
+     <!--      Forgot Password button-->
+            <button class="btn submits bg-primary sign-up">
+
+                <a class='text-decoration-underline' href='/login/'>Login</a>
+            </button>
+     <!--     Sign Up button -->
+           <button class="btn submits sign-up "> 
+            <a class='text-decoration-underline' href='/signup/'>Sign Up</a>
+           </button>
+     <!--      End Other the Division -->
+        </div>
+          
+     <!--   End Conrainer  -->
+       </div>
+       
+       <!-- End Form -->
+     </form>
+
+{% endblock %}
