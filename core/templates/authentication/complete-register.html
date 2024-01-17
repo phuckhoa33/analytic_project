@@ -18,17 +18,23 @@
         <br>
       
         <div class="field-set">
-            
-            <div class='mt-5'>
-                <h3 class='text-danger fw-bolder text-center'>
-                    <i class="fa-sharp fa-solid fa-xmark bg-danger rounded-circle fs-1 w-100"></i>
-                    {% if  expired %}
-                        You have completed register
-                    {% else %}
+            {% if expired %}
+                <div class='mt-5'>
+                    <h3 class='text-primary fw-bolder text-center'>
+                        <i class="fa-solid fa-check bg-danger rounded-circle fs-1 w-100"></i>
+                      
                         This token is expired
-                    {% endif %}
-               </h3>
-            </div>
+                    </h3>
+                </div>
+            {% else %}
+                <div class='mt-5'>
+                    <h3 class='text-danger fw-bolder text-center'>
+                        <i class="fa-sharp fa-solid fa-xmark bg-danger rounded-circle fs-1 w-100"></i>
+                        
+                        This token is expired
+                    </h3>
+                </div>
+            {% endif %}
            <!--   user name -->
         </div>
         <br/>

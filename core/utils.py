@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.conf import settings
 import jwt
-import datetime
+from datetime import datetime, timezone, timedelta
 from django.http import HttpResponse
 
 
@@ -29,22 +29,35 @@ def send_html_email_with_file(subject, to, html_file_path, context=None) -> bool
         return False
 
 def encode_token(user, prefix_url):
-    expiration_time = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    expiration_time = datetime.utcnow() + timedelta(hours=1)
     token = jwt.encode({'user': user, 'exp': expiration_time}, settings.SECRET_KEY, algorithm='HS256')
     
     new_link = reverse(f'core:{prefix_url}', args=[token])
     return settings.PRIMARY_URL + new_link
 
 def decode_token(token):
-
     try:
         decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         # rest of your code...
-        print(decoded_token)
+        user = decoded_token['user']
+        expiration_time = decoded_token.get("exp")
+        # Check token is expired
+        if expiration_time:
+        # Convert the expiration time to a datetime object
+            expiration_datetime = datetime.utcfromtimestamp(expiration_time).replace(tzinfo=timezone.utc)
+
+            # Check if the token is expired
+            current_datetime = datetime.now(timezone.utc)
+            if current_datetime > expiration_datetime:
+                return [user, False]
+            else:
+                return [user, True]
+        else:
+            print("Token does not have an expiration time.")
     except jwt.ExpiredSignatureError:
-        return HttpResponse("Token has expired")
+        return [user, False]
     except jwt.InvalidTokenError:
-        return HttpResponse("Invalid token")
+        return [user, False]
 
 def create_link_with_token(user, prefix_url):
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))

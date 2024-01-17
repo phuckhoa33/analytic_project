@@ -90,9 +90,14 @@ def signup(request):
         'form': form
     })
 def complete_register(request, token):
-    confirmed_user = decode_token(token)
+    decoded_result = decode_token(token)
 
-    return render(request, 'authentication/complete-register.html')
+    new_user = decoded_result[0]
+    form = SignupForm(new_user)
+    if form.is_valid():
+        form.save()
+
+    return render(request, 'authentication/complete-register.html', {'expired': decoded_result[1]})
 
 def forgot_password(request):
     form = CustomPasswordSendEmailForm()
