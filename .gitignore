@@ -1,2 +1,4 @@
 *.env
 /myenv
+core/__pycache__/
+analyze_project/__pycache__/

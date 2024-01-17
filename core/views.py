@@ -3,7 +3,7 @@ from .forms import SignupForm, LoginForm, CustomPasswordChangeForm, CustomPasswo
 from .models import MyUser as User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
-from .utils import send_html_email_with_file, create_link_with_token, is_token_valid
+from .utils import send_html_email_with_file, create_link_with_token, is_token_valid, decode_token, encode_token
 from django.utils.http import urlsafe_base64_decode
 from django.contrib import messages
 import os
@@ -56,9 +56,31 @@ def signup(request):
             return render(request, 'authentication/signup.html', {'form': form, 'error_message': 'User already exists'})
         else:
             if form.is_valid():
-                form.save()
+                # Create a link assign user information
+                new_user.pk = 33
+                new_user.is_active = False
+                new_user_link = encode_token(new_user, "complete-register")
+                # Send is mail for wellcome and validate this email is valid
+                to = [new_user['email'],]
+                html_file_path = os.getcwd() + '\\core\\templates\\email_template\\welcome.html'
+                
 
-                return redirect('/login/')
+                context = {
+                    'recipient': new_user['email'], 
+                    'new_user_link': new_user_link,
+                    'flatform_name': "Mutyses",
+                    'flatfrom_number_phone': '0972495038',
+                    'flatform_logo': ''
+                }
+                subject = 'Welcome to new member of flatform'
+
+                sended_email = send_html_email_with_file(subject, to, html_file_path, context)
+
+                if sended_email:
+                    
+                    return render(request, 'authentication/send-email-result.html', context={"sended": True})
+                else:
+                    return render(request, 'authentication/send-email-result.html', context={"sended": False})
         
 
     else:
@@ -67,7 +89,15 @@ def signup(request):
     return render(request, 'authentication/signup.html', {
         'form': form
     })
+def complete_register(request, token):
+    decoded_result = decode_token(token)
 
+    new_user = decoded_result[0]
+    form = SignupForm(new_user)
+    if form.is_valid():
+        form.save()
+
+    return render(request, 'authentication/complete-register.html', {'expired': decoded_result[1]})
 
 def forgot_password(request):
     form = CustomPasswordSendEmailForm()
@@ -80,7 +110,7 @@ def forgot_password(request):
 
 
             # Create link
-            password_reset_link = create_link_with_token(user)
+            password_reset_link = create_link_with_token(user, "reset-password")
 
             to = [owner_email,]
             html_file_path = os.getcwd() + '\\core\\templates\\email_template\\reset-password.html'
