@@ -1,0 +1,11 @@
+
+
+
+.home-navbar {
+    background-color: #B8F2E6;
+    color: antiquewhite;
+}
+/* Css for a tag is not underlined */
+.home-login {
+    text-decoration: none;
+}
