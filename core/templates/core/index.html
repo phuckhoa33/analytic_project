@@ -3,5 +3,14 @@
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-   
+    <div class='d-flex justify-content-center mt-5'>
+        <form class="d-flex" method="post" action="/analyze">
+            <input class="form-control me-2" type="search" placeholder="Type anything..." aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Analyze</button>
+          </form>
+    </div>
+    <h3 class='text-success text-center mt-5'>Information can be found and analyed which is displayed below</h3>
+    <div class='d-flex justify-content-center mt-5'>
+        
+    </div>
 {% endblock %}

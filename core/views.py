@@ -9,7 +9,6 @@ from django.contrib import messages
 import os
 # Create your views here.
 def index(request):
-
     return render(request, 'core/index.html', {
         'categories': [],
         'items': [],
