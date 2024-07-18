@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to {{ flatform_name }}!</h1>
+        <p>We're excited to have you on board as our newest member. {{ flatform_name }} is a cutting-edge platform that provides powerful tools for analyzing financial and real assets.</p>
+
+        <p>Whether you're an investor, financial analyst, or real estate professional, our platform offers comprehensive features to help you make informed decisions and optimize your strategies.</p>
+
+        <p>Your account has been officially registered, and we can't wait for you to explore all the exciting features and opportunities that our platform has to offer.</p>
+
+        <p><strong>Caution:</strong> To complete your registration, please click on the following link:</p>
+        <a href="{{ new_user_link }}" class="cta-button">Official Registration Link</a>
+
+        <p>If you haven't registered yet, please note that only officially registered users can access [Platform Name]. If you haven't created an account, please visit our registration page <a href="{{ new_user_link }}">here</a> to sign up and become part of our growing community.</p>
+
+        <p>We're here to help you make the most out of your experience on {{ flatform_name }}. If you have any questions or need assistance, feel free to reach out to our support team at <a href="mailto:phuckhoa81@gmail.com">[Support Email]</a>.</p>
+
+        <p>Once again, welcome to {{ flatform_name }}! We look forward to seeing you thrive and contribute to our vibrant community focused on financial and real asset analysis.</p>
+
+        <p>Best regards,<br>
+            {{ flatform_name }}<br>
+            {{ flatfrom_number_phone }}<br>
+            {% if flatform_logo %}<img src="{{ flatform_logo }}" alt="Company Logo">{% endif %}
+        </p>
+    </div>
+</body>
+</html>

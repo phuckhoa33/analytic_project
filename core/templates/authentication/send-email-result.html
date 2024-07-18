@@ -1,0 +1,74 @@
+{% extends "authentication/base.html" %}
+
+{% block title %} Forgot Password Result {% endblock %}
+
+{% block content %}
+<!-- LOGN IN FORM by Omar Dsoky -->
+   <form method="post" action=".">
+       {% csrf_token %}
+        <!--   con = Container  for items in the form-->
+        <div class="con">
+        <!--     Start  header Content  -->
+        <header class="head-form">
+           <h2>Mutyses</h2>
+           <!--     A welcome message or an explanation of the login form -->
+           <p>Send email and recreate a new password</p>
+        </header>
+        <!--     End  header Content  -->
+        <br>
+        <div class="field-set">
+          
+           <!--   user name -->
+           
+           <!--   user name Input-->
+           {% if  sended %}
+           
+           
+               <h3 class='text-success fw-bolder'>
+                  <i class="fa-solid fa-check bg-success rounded-circle fs-1 w-100"></i>
+                  Email have sended into your email. 
+               </h3>
+               <p>
+                  If you don't entry to mail. This progress is not completed and your account is not exist
+
+               </p>
+           {% else %}
+               <div>
+              
+                  <h3 class='text-danger fw-bolder'>
+                     <i class="fa-sharp fa-solid fa-xmark bg-danger rounded-circle fs-1 w-100"></i>
+                     Couldn't send to your email.
+                  </h3>
+               </div>
+               
+             {% endif %}
+          
+        
+          
+          
+           <br>
+
+       
+  <!--   other buttons -->
+        <div class="other">
+     <!--      Forgot Password button-->
+           <button class="btn submits bg-primary sign-up">
+            {% if sended %}
+               <a class='text-decoration-underline' href='https://mail.google.com/mail/u/0/#inbox/'>Go to mail</a>
+            {% else %}
+               <a class='text-decoration-underline' href='/forgot-password'>Send Again</a>
+            {% endif %}
+           </button>
+     <!--     Sign Up button -->
+           <button class="btn submits sign-up"> 
+               <a class='text-decoration-underline' href='/login/'>Login</a>
+           </button>
+     <!--      End Other the Division -->
+        </div>
+     <!--   End Conrainer  -->
+       </div>
+       
+       <!-- End Form -->
+     </form>
+
+{% endblock %}
